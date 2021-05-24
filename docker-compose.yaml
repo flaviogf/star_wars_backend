@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  server:
+    build: .
+    image: flaviogf/star_wars_backend
+    ports:
+      - 3000:80
+    environment:
+      DATABASE_URL: mongodb://root:calopsita@mongo
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: calopsita
