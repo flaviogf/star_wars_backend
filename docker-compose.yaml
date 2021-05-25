@@ -4,10 +4,13 @@ services:
   server:
     build: .
     image: flaviogf/star_wars_backend
-    ports:
-      - 3000:80
+    restart: always
     environment:
       DATABASE_URL: mongodb://root:calopsita@mongo
+    ports:
+      - 3000:80
+    depends_on:
+      - mongo
   mongo:
     image: mongo
     restart: always
