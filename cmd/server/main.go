@@ -9,6 +9,7 @@ import (
 
 	"github.com/flaviogf/star_wars_backend/cmd/server/database"
 	"github.com/flaviogf/star_wars_backend/cmd/server/routes"
+	"github.com/go-openapi/runtime/middleware"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -27,6 +28,10 @@ func main() {
 	database.Conn = client.Database("star_wars")
 
 	http.Handle("/", routes.NewHandler())
+
+	http.Handle("/docs", middleware.SwaggerUI(middleware.SwaggerUIOpts{SpecURL: "swagger.yaml"}, nil))
+
+	http.Handle("/swagger.yaml", http.FileServer(http.Dir("./")))
 
 	log.Println(http.ListenAndServe(":80", nil))
 }

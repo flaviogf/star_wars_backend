@@ -1,0 +1,40 @@
+openapi: 3.0.0
+
+info:
+  title: Star Wars Backend
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: development
+
+paths:
+  /planets:
+    post:
+      tags:
+        - planets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddPlanetRequest"
+      responses:
+        "201":
+          description: Created
+        "402":
+          description: Unprocessable Entity
+        "500":
+          description: Internal Server Error
+
+components:
+  schemas:
+    AddPlanetRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        climate:
+          type: string
+        terrain:
+          type: string
