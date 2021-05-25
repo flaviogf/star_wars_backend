@@ -32,6 +32,31 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListPlanetResponse"
+        "500":
+          description: Internal Server Error
+  /planets/{id}:
+    get:
+      tags:
+        - planets
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetPlanetResponse"
+        "404":
+          description: Not Found
         "500":
           description: Internal Server Error
 
@@ -46,3 +71,20 @@ components:
           type: string
         terrain:
           type: string
+    ListPlanetResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/GetPlanetResponse"
+    GetPlanetResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        climate:
+          type: string
+        terrain:
+          type: string
+        movies:
+          type: number
