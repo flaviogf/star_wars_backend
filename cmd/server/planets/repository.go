@@ -66,6 +66,22 @@ func (r MongoRepository) Get(ctx context.Context, id interface{}) (planets.Plane
 	return planet, nil
 }
 
+func (r MongoRepository) GetByName(ctx context.Context, name string) (planets.Planet, error) {
+	res := database.Conn.Collection("planets").FindOne(ctx, bson.D{{"name", name}})
+
+	if err := res.Err(); err != nil {
+		return planets.Planet{}, err
+	}
+
+	var planet planets.Planet
+
+	if err := res.Decode(&planet); err != nil {
+		return planets.Planet{}, err
+	}
+
+	return planet, nil
+}
+
 func (r MongoRepository) Remove(ctx context.Context, id interface{}) error {
 	objectID, _ := primitive.ObjectIDFromHex((fmt.Sprintf("%v", id)))
 

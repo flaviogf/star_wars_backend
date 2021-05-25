@@ -21,5 +21,7 @@ func NewHandler() http.Handler {
 
 	r.HandleFunc("/planets/{id}", planets.RemovePlanetHandler).Methods(http.MethodDelete)
 
+	r.HandleFunc("/planets/name/{name}", planets.GetPlanetByNameHandler).Methods(http.MethodGet)
+
 	return r
 }
