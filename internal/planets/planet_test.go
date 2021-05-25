@@ -28,6 +28,10 @@ func (r SuccessRepository) Remove(ctx context.Context, id interface{}) error {
 	return nil
 }
 
+func (r SuccessRepository) Exists(ctx context.Context, name string) bool {
+	return false
+}
+
 type FailureRepository struct {
 }
 
@@ -49,6 +53,36 @@ func (r FailureRepository) GetByName(ctx context.Context, name string) (Planet, 
 
 func (r FailureRepository) Remove(ctx context.Context, id interface{}) error {
 	return errors.New("something goes wrong")
+}
+
+func (r FailureRepository) Exists(ctx context.Context, name string) bool {
+	return false
+}
+
+type PlanetAlreadyRegisteredRepository struct{}
+
+func (r PlanetAlreadyRegisteredRepository) Add(ctx context.Context, planet Planet) error {
+	return errors.New("something goes wrong")
+}
+
+func (r PlanetAlreadyRegisteredRepository) GetAll(ctx context.Context) ([]Planet, error) {
+	return []Planet{}, errors.New("something goes wrong")
+}
+
+func (r PlanetAlreadyRegisteredRepository) Get(ctx context.Context, id interface{}) (Planet, error) {
+	return Planet{}, errors.New("something goes wrong")
+}
+
+func (r PlanetAlreadyRegisteredRepository) GetByName(ctx context.Context, name string) (Planet, error) {
+	return Planet{}, errors.New("something goes wrong")
+}
+
+func (r PlanetAlreadyRegisteredRepository) Remove(ctx context.Context, id interface{}) error {
+	return errors.New("something goes wrong")
+}
+
+func (r PlanetAlreadyRegisteredRepository) Exists(ctx context.Context, name string) bool {
+	return true
 }
 
 type SuccessService struct {

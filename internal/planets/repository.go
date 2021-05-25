@@ -8,4 +8,5 @@ type Repository interface {
 	Get(ctx context.Context, id interface{}) (Planet, error)
 	GetByName(ctx context.Context, name string) (Planet, error)
 	Remove(ctx context.Context, id interface{}) error
+	Exists(ctx context.Context, name string) bool
 }

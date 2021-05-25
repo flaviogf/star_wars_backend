@@ -52,3 +52,19 @@ func TestAddPlanetShouldReturnErrPlanetNotFoundWhenServiceFails(t *testing.T) {
 		t.Errorf("Expected: %v, Got: %v", ErrPlanetNotFound, err)
 	}
 }
+
+func TestAddPlanetShouldReturnErrPlanetAlreadyRegisteredWhenPlanetExists(t *testing.T) {
+	repository := PlanetAlreadyRegisteredRepository{}
+
+	service := SuccessService{}
+
+	sut := NewAddPlanetHandler(repository, service)
+
+	request := NewAddPlanetRequest("Wrong", "Hot", "Desert")
+
+	err := sut.Execute(context.Background(), request)
+
+	if err != ErrPlanetAlreadyRegistered {
+		t.Errorf("Expected: %v, Got: %v", ErrPlanetAlreadyRegistered, err)
+	}
+}

@@ -29,6 +29,10 @@ func NewAddPlanetRequest(name, climate, terrain string) AddPlanetRequest {
 }
 
 func (h AddPlanetHandler) Execute(ctx context.Context, request AddPlanetRequest) error {
+	if h.repository.Exists(ctx, request.Name) {
+		return ErrPlanetAlreadyRegistered
+	}
+
 	movies, err := h.service.CountMovies(ctx, request.Name)
 
 	if err != nil {
