@@ -23,7 +23,17 @@ func AddPlanetHandler(w http.ResponseWriter, r *http.Request) {
 
 	handler := planets.NewAddPlanetHandler(MongoRepository{}, HttpService{})
 
-	if err := handler.Execute(r.Context(), request); err != nil {
+	err := handler.Execute(r.Context(), request)
+
+	if err != nil && (err == planets.ErrPlanetNotAdded || err == planets.ErrPlanetNotFound) {
+		log.Println(err)
+
+		w.WriteHeader(http.StatusUnprocessableEntity)
+
+		return
+	}
+
+	if err != nil {
 		log.Println(err)
 
 		w.WriteHeader(http.StatusInternalServerError)
