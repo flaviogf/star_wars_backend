@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	"github.com/flaviogf/star_wars_backend/cmd/server/middlewares"
 	"github.com/flaviogf/star_wars_backend/cmd/server/planets"
 	"github.com/gorilla/mux"
 )
@@ -10,7 +11,11 @@ import (
 func NewHandler() http.Handler {
 	r := mux.NewRouter()
 
-	r.HandleFunc("/planets", planets.AddPlanetHandler)
+	r.Use(middlewares.Json)
+
+	r.HandleFunc("/planets", planets.AddPlanetHandler).Methods(http.MethodPost)
+
+	r.HandleFunc("/planets", planets.ListPlanetHandler).Methods(http.MethodGet)
 
 	return r
 }
