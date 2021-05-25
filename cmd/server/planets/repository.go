@@ -2,10 +2,12 @@ package planets
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/flaviogf/star_wars_backend/cmd/server/database"
 	"github.com/flaviogf/star_wars_backend/internal/planets"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type MongoRepository struct{}
@@ -44,4 +46,22 @@ func (r MongoRepository) GetAll(ctx context.Context) ([]planets.Planet, error) {
 	}
 
 	return result, nil
+}
+
+func (r MongoRepository) Get(ctx context.Context, id interface{}) (planets.Planet, error) {
+	objectID, _ := primitive.ObjectIDFromHex((fmt.Sprintf("%v", id)))
+
+	res := database.Conn.Collection("planets").FindOne(ctx, bson.D{{"_id", objectID}})
+
+	if err := res.Err(); err != nil {
+		return planets.Planet{}, err
+	}
+
+	var planet planets.Planet
+
+	if err := res.Decode(&planet); err != nil {
+		return planets.Planet{}, err
+	}
+
+	return planet, nil
 }
