@@ -3,9 +3,10 @@ package planets
 import "errors"
 
 var (
-	ErrPlanetNotAdded  = errors.New("could not save the planet")
-	ErrPlanetsNotFound = errors.New("planets not found")
-	ErrPlanetNotFound  = errors.New("planet not found")
+	ErrPlanetNotAdded   = errors.New("could not save the planet")
+	ErrPlanetsNotFound  = errors.New("planets not found")
+	ErrPlanetNotFound   = errors.New("planet not found")
+	ErrPlanetNotRemoved = errors.New("could not delete the planet")
 )
 
 type Planet struct {

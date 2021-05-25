@@ -20,6 +20,10 @@ func (r SuccessRepository) Get(ctx context.Context, id interface{}) (Planet, err
 	return Planet{"XXXX", "Tatooine", "Hot", "Desert", 5}, nil
 }
 
+func (r SuccessRepository) Remove(ctx context.Context, id interface{}) error {
+	return nil
+}
+
 type FailureRepository struct {
 }
 
@@ -33,6 +37,10 @@ func (r FailureRepository) GetAll(ctx context.Context) ([]Planet, error) {
 
 func (r FailureRepository) Get(ctx context.Context, id interface{}) (Planet, error) {
 	return Planet{}, errors.New("something goes wrong")
+}
+
+func (r FailureRepository) Remove(ctx context.Context, id interface{}) error {
+	return errors.New("something goes wrong")
 }
 
 type SuccessService struct {
