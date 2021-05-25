@@ -75,6 +75,27 @@ paths:
           description: Not Found
         "500":
           description: Internal Server Error
+  /planets/name/{name}:
+    get:
+      tags:
+        - planets
+      parameters:
+        - in: path
+          required: true
+          name: name
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetPlanetResponse"
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
 
 components:
   schemas:
