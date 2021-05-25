@@ -2,13 +2,16 @@ package planets
 
 import (
 	"context"
+	"errors"
 	"testing"
 )
 
-func TestNewPlanetShouldReturnNil(t *testing.T) {
+func TestAddPlanetShouldReturnNil(t *testing.T) {
 	repository := SuccessRepository{}
 
-	sut := NewAddPlanetHandler(repository)
+	service := SuccessService{}
+
+	sut := NewAddPlanetHandler(repository, service)
 
 	request := NewAddPlanetRequest("Tatooine", "Hot", "Desert")
 
@@ -19,10 +22,12 @@ func TestNewPlanetShouldReturnNil(t *testing.T) {
 	}
 }
 
-func TestNewPlanetShouldReturnErrPlanetNotAddedWhenRepositoryFails(t *testing.T) {
+func TestAddPlanetShouldReturnErrPlanetNotAddedWhenRepositoryFails(t *testing.T) {
 	repository := FailureRepository{}
 
-	sut := NewAddPlanetHandler(repository)
+	service := SuccessService{}
+
+	sut := NewAddPlanetHandler(repository, service)
 
 	request := NewAddPlanetRequest("Tatooine", "Hot", "Desert")
 
@@ -30,6 +35,22 @@ func TestNewPlanetShouldReturnErrPlanetNotAddedWhenRepositoryFails(t *testing.T)
 
 	if err != ErrPlanetNotAdded {
 		t.Errorf("Expected: %v, Got: %v", ErrPlanetNotAdded, err)
+	}
+}
+
+func TestAddPlanetShouldReturnErrPlanetNotFoundWhenServiceFails(t *testing.T) {
+	repository := SuccessRepository{}
+
+	service := FailureService{}
+
+	sut := NewAddPlanetHandler(repository, service)
+
+	request := NewAddPlanetRequest("Wrong", "Hot", "Desert")
+
+	err := sut.Execute(context.Background(), request)
+
+	if err != ErrPlanetNotFound {
+		t.Errorf("Expected: %v, Got: %v", ErrPlanetNotFound, err)
 	}
 }
 
@@ -44,5 +65,19 @@ type FailureRepository struct {
 }
 
 func (r FailureRepository) Add(ctx context.Context, planet Planet) error {
-	return ErrPlanetNotAdded
+	return errors.New("something goes wrong")
+}
+
+type SuccessService struct {
+}
+
+func (s SuccessService) CountMovies(ctx context.Context, planetName string) (int, error) {
+	return 0, nil
+}
+
+type FailureService struct {
+}
+
+func (s FailureService) CountMovies(ctx context.Context, planetName string) (int, error) {
+	return 0, errors.New("something goes wrong")
 }

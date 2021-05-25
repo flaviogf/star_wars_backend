@@ -7,10 +7,12 @@ import (
 
 var (
 	ErrPlanetNotAdded = errors.New("could not save the planet")
+	ErrPlanetNotFound = errors.New("planet not found")
 )
 
 type AddPlanetHandler struct {
 	repository Repository
+	service    Service
 }
 
 type AddPlanetRequest struct {
@@ -19,9 +21,10 @@ type AddPlanetRequest struct {
 	Terrain string `json:"terrain"`
 }
 
-func NewAddPlanetHandler(repository Repository) AddPlanetHandler {
+func NewAddPlanetHandler(repository Repository, service Service) AddPlanetHandler {
 	return AddPlanetHandler{
 		repository: repository,
+		service:    service,
 	}
 }
 
@@ -34,7 +37,19 @@ func NewAddPlanetRequest(name, climate, terrain string) AddPlanetRequest {
 }
 
 func (h AddPlanetHandler) Execute(ctx context.Context, request AddPlanetRequest) error {
-	planet := NewPlanet(request.Name, request.Climate, request.Terrain)
+	movies, err := h.service.CountMovies(ctx, request.Name)
 
-	return h.repository.Add(ctx, planet)
+	if err != nil {
+		return ErrPlanetNotFound
+	}
+
+	planet := NewPlanet(request.Name, request.Climate, request.Terrain, movies)
+
+	err = h.repository.Add(ctx, planet)
+
+	if err != nil {
+		return ErrPlanetNotAdded
+	}
+
+	return nil
 }
