@@ -26,6 +26,14 @@ paths:
           description: Unprocessable Entity
         "500":
           description: Internal Server Error
+    get:
+      tags:
+        - planets
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
 
 components:
   schemas:
