@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/flaviogf/star_wars_backend/cmd/server/planets/mongo"
 	"github.com/flaviogf/star_wars_backend/internal/planets"
 )
 
@@ -22,7 +21,7 @@ func AddPlanetHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	handler := planets.NewAddPlanetHandler(mongo.MongoRepository{})
+	handler := planets.NewAddPlanetHandler(MongoRepository{}, HttpService{})
 
 	if err := handler.Execute(r.Context(), request); err != nil {
 		log.Println(err)
