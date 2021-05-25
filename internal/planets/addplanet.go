@@ -1,14 +1,6 @@
 package planets
 
-import (
-	"context"
-	"errors"
-)
-
-var (
-	ErrPlanetNotAdded = errors.New("could not save the planet")
-	ErrPlanetNotFound = errors.New("planet not found")
-)
+import "context"
 
 type AddPlanetHandler struct {
 	repository Repository

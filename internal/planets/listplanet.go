@@ -1,27 +1,12 @@
 package planets
 
-import (
-	"context"
-	"errors"
-)
-
-var (
-	ErrPlanetsNotFound = errors.New("planets not found")
-)
+import "context"
 
 type ListPlanetHandler struct {
 	repository Repository
 }
 
-type ListPlanetResponse []PlanetResponse
-
-type PlanetResponse struct {
-	ID      interface{} `json:"id"`
-	Name    string      `json:"name"`
-	Climate string      `json:"climate"`
-	Terrain string      `json:"terrain"`
-	Movies  int         `json:"movies"`
-}
+type ListPlanetResponse []GetPlanetResponse
 
 func NewListPlanetHandler(repository Repository) ListPlanetHandler {
 	return ListPlanetHandler{
@@ -39,7 +24,7 @@ func (h *ListPlanetHandler) Execute(ctx context.Context) (ListPlanetResponse, er
 	result := ListPlanetResponse{}
 
 	for _, planet := range planets {
-		result = append(result, PlanetResponse(planet))
+		result = append(result, GetPlanetResponse(planet))
 	}
 
 	return result, nil
