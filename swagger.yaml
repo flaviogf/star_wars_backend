@@ -59,6 +59,22 @@ paths:
           description: Not Found
         "500":
           description: Internal Server Error
+    delete:
+      tags:
+        - planets
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
 
 components:
   schemas:
