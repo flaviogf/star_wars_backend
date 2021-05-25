@@ -65,3 +65,15 @@ func (r MongoRepository) Get(ctx context.Context, id interface{}) (planets.Plane
 
 	return planet, nil
 }
+
+func (r MongoRepository) Remove(ctx context.Context, id interface{}) error {
+	objectID, _ := primitive.ObjectIDFromHex((fmt.Sprintf("%v", id)))
+
+	res := database.Conn.Collection("planets").FindOneAndDelete(ctx, bson.D{{"_id", objectID}})
+
+	if err := res.Err(); err != nil {
+		return err
+	}
+
+	return nil
+}
