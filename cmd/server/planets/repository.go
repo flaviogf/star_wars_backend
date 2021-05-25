@@ -93,3 +93,19 @@ func (r MongoRepository) Remove(ctx context.Context, id interface{}) error {
 
 	return nil
 }
+
+func (r MongoRepository) Exists(ctx context.Context, name string) bool {
+	res := database.Conn.Collection("planets").FindOne(ctx, bson.D{{"name", name}})
+
+	if err := res.Err(); err != nil {
+		return false
+	}
+
+	var planet planets.Planet
+
+	if err := res.Decode(&planet); err != nil {
+		return false
+	}
+
+	return true
+}

@@ -25,7 +25,7 @@ func AddPlanetHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := handler.Execute(r.Context(), request)
 
-	if err != nil && (err == planets.ErrPlanetNotAdded || err == planets.ErrPlanetNotFound) {
+	if err != nil && (err == planets.ErrPlanetNotAdded || err == planets.ErrPlanetNotFound || err == planets.ErrPlanetAlreadyRegistered) {
 		log.Println(err)
 
 		w.WriteHeader(http.StatusUnprocessableEntity)
