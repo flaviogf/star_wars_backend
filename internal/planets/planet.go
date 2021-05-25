@@ -1,11 +1,11 @@
 package planets
 
 type Planet struct {
-	ID      interface{}
-	Name    string
-	Climate string
-	Terrain string
-	Movies  int
+	ID      interface{} `bson:"_id,omitempty"`
+	Name    string      `bson:"name"`
+	Climate string      `bson:"climate"`
+	Terrain string      `bson:"terrain"`
+	Movies  int         `bson:"movies"`
 }
 
 func NewPlanet(name, climate, terrain string, movies int) Planet {
