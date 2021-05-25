@@ -3,6 +3,7 @@ package planets
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
 )
@@ -23,7 +24,7 @@ func (s HttpService) CountMovies(ctx context.Context, planetName string) (int, e
 		}
 	}
 
-	return 0, nil
+	return 0, errors.New("planet not found")
 }
 
 type body struct {
