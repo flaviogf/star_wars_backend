@@ -20,6 +20,10 @@ func (r SuccessRepository) Get(ctx context.Context, id interface{}) (Planet, err
 	return Planet{"XXXX", "Tatooine", "Hot", "Desert", 5}, nil
 }
 
+func (r SuccessRepository) GetByName(ctx context.Context, name string) (Planet, error) {
+	return Planet{"XXXX", "Tatooine", "Hot", "Desert", 5}, nil
+}
+
 func (r SuccessRepository) Remove(ctx context.Context, id interface{}) error {
 	return nil
 }
@@ -36,6 +40,10 @@ func (r FailureRepository) GetAll(ctx context.Context) ([]Planet, error) {
 }
 
 func (r FailureRepository) Get(ctx context.Context, id interface{}) (Planet, error) {
+	return Planet{}, errors.New("something goes wrong")
+}
+
+func (r FailureRepository) GetByName(ctx context.Context, name string) (Planet, error) {
 	return Planet{}, errors.New("something goes wrong")
 }
 
