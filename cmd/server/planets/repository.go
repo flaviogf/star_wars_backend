@@ -1,8 +1,7 @@
-package mongo
+package planets
 
 import (
 	"context"
-	"log"
 
 	"github.com/flaviogf/star_wars_backend/cmd/server/database"
 	"github.com/flaviogf/star_wars_backend/internal/planets"
@@ -16,12 +15,11 @@ func (r MongoRepository) Add(ctx context.Context, planet planets.Planet) error {
 		{"name", planet.Name},
 		{"climate", planet.Climate},
 		{"terrain", planet.Terrain},
+		{"movies", planet.Movies},
 	})
 
 	if err != nil {
-		log.Println(err)
-
-		return planets.ErrPlanetNotAdded
+		return err
 	}
 
 	planet.ID = res.InsertedID
